@@ -7,3 +7,7 @@ public class Tile {
     public boolean collision;
     public boolean clear;
 }
+
+
+
+

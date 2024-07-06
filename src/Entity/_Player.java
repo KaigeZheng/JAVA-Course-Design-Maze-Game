@@ -8,17 +8,21 @@ import java.io.IOException;
 import main._Handler;
 import main._Panel;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class _Player extends Entity {
     _Panel panel;
     _Handler handler;
-
+    // 屏幕大小
     public final int SCREEN_X;
     public final int SCREEN_Y;
-
+    // 游戏状态 -> 是否通关
     private boolean gameStatus = false;
+    // 计时器
+    private long gameTime, startTime, endTime;
 
     public _Player(_Panel panel, _Handler handler) {
+        // 传递panel和handler -> 设定玩家初始参数 -> 初始化碰撞面积 -> 开始计时
         this.panel = panel;
         this.handler = handler;
         this.setDefaultVale();
@@ -30,9 +34,41 @@ public class _Player extends Entity {
         area.height = 32;
         area.x = (16 - area.width/2 >= 0)?16 - area.width/2 : 0;
         area.y = (24 - area.height/2 >= 0)?24 - area.height/2 : 0;
-        // TO DO
+        setStartTime();
     }
 
+    // 开始计时
+    public void setStartTime() {
+        startTime = System.currentTimeMillis();
+        endTime = -1;
+        gameTime = -1;
+    }
+
+    // 结束计时
+    public void setEndTime() {
+        endTime = System.currentTimeMillis();
+        gameTime = (endTime - startTime)/1000;
+    }
+
+    // 游戏结束
+    public void clearGame() {
+        ImageIcon icon = new ImageIcon("/image/map/ball.png");
+        String notice = "cost time = " + gameTime + " seconds.";
+        String title = "Congradulations!";
+        JOptionPane.showMessageDialog(null, notice, title, JOptionPane.WARNING_MESSAGE, icon);
+        endGame(1);
+    }
+
+    // 游戏结束处理
+    public void endGame(int mode) {
+        if(mode == 1) {
+            System.exit(0);
+        } else if (mode == 2) {
+            // TODO:restart
+        }
+    }
+
+    // 获取图片
     public void getImage() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/image/player/up1.png"));
@@ -48,6 +84,7 @@ public class _Player extends Entity {
         }
     }
 
+    // 初始化玩家参数
     public void setDefaultVale() {
         worldX = 7 * panel.TILE_SIZE;
         worldY = 7 * panel.TILE_SIZE;
@@ -55,6 +92,7 @@ public class _Player extends Entity {
         direction = "down";
     }
 
+    // 更新玩家状态(移动与判断碰撞与判断游戏结束)
     public void update() {
         if (handler.upPressed || handler.downPressed || handler.leftPressed || handler.rightPressed) {
             if(handler.upPressed) {
@@ -88,7 +126,10 @@ public class _Player extends Entity {
             }
             if(clear == true && gameStatus == false) {
                 gameStatus = true;
-                System.out.println("[Game Event]Clear the game!");
+                setEndTime();
+                System.out.println("[Game Event]Clear the game! cost time = " + gameTime + " seconds!");
+                clearGame();
+               // System.out.println(gameTime);
             }
 
             cnt++;
@@ -104,6 +145,7 @@ public class _Player extends Entity {
         }
     }
 
+    // 绘图
     public void draw(Graphics2D g2D) {
         BufferedImage image = null;
         switch (direction) {

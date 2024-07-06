@@ -10,6 +10,7 @@ public class Check {
     }
 
     public void checkTile(Entity e) {
+        // 初始化碰撞面积参数
         int eLeftWorldX = e.worldX + e.area.x;
         int eRightWorldX = e.worldX + e.area.x + e.area.width;
         int eTopWorldY = e.worldY + e.area.y;
@@ -70,3 +71,7 @@ public class Check {
         }
     }
 }
+
+
+
+

@@ -5,12 +5,10 @@ import java.awt.event.*;
 public class _Handler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
 
-
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent e) { }
 
-    }
-
+    // 重载键盘按下事件
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -32,6 +30,7 @@ public class _Handler implements KeyListener {
         }
     }
 
+    // 重载键盘松开事件
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -49,3 +48,7 @@ public class _Handler implements KeyListener {
         }
     }
 }
+
+
+
+
