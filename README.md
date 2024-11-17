@@ -1,5 +1,7 @@
 # JAVA-Course-Design-Maze-Game
 
+![](./res/image/demo.png)
+
 ## 构建环境
 
 + `JDK` : 21.0.2 2024-01-16 LTS
